@@ -15,3 +15,4 @@ Avaliacao(UsuarioId INT PK/FK Usuario(UsuarioId), FilmeId INT PK/FK Filme(FilmeI
 Ator_Filme(FilmeId INT PK/FK Filme(FilmeId), AtorId INT PK/FK Ator(AtorId))
 
 Filme_Genero(FilmeId INT PK/FK Filme(FilmeId), GeneroId INT PK/FK Genero(GeneroId))
+
