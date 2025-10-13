@@ -13,8 +13,8 @@ GeneroId SERIAL PRIMARY KEY,
 Genero VARCHAR(50) NOT NULL CHECK (Genero <> '')
 );
 
-CREATE TABLE Ator(
-AtorId SERIAL PRIMARY KEY,
+CREATE TABLE Elenco(
+ElencoId SERIAL PRIMARY KEY,
 Nome VARCHAR(50) NOT NULL CHECK (Nome <> '')
 );
 
@@ -37,11 +37,11 @@ FOREIGN KEY (UsuarioId) REFERENCES Usuario(UsuarioId),
 FOREIGN KEY (FilmeId) REFERENCES Filme(FilmeId)
 );
 
-CREATE TABLE Ator_Filme(
-AtorId INT,
+CREATE TABLE Elenco_Filme(
+ElencoId INT,
 FilmeId INT,
-PRIMARY KEY (AtorId,FilmeId),
-FOREIGN KEY (AtorId) REFERENCES Ator(AtorId),
+PRIMARY KEY (ElencoId,FilmeId),
+FOREIGN KEY (ElencoId) REFERENCES Elenco(ElencoId),
 FOREIGN KEY (FilmeId) REFERENCES Filme(FilmeId)
 );
 
@@ -66,3 +66,4 @@ INSERT INTO Usuario (Nome) VALUES ('UsuarioTeste3');
 INSERT INTO Avaliacao (UsuarioId, FilmeId, Nota, Comentario) VALUES (1, 1, 10, 'Filme Otimo');
 INSERT INTO Avaliacao (UsuarioId, FilmeId, Nota, Comentario) VALUES (1, 2, 7, 'Gostei do filme adsfghadfgasdfg');
 INSERT INTO Avaliacao (UsuarioId, FilmeId, Nota, Comentario) VALUES (2, 2, 2, 'Muito ruim');
+
