@@ -8,7 +8,7 @@ Genero(GeneroId INT PK, Nome VARCHAR)
 
 Ator(AtorId INT PK, Nome VARCHAR)
 
-Filme(FilmeId INT PK, Nome VARCHAR, Ano INT, DiretorId INT FK Diretor(DiretorId))
+Filme(FilmeId INT PK, Nome VARCHAR, Ano INT, Duracao INT, DiretorId INT FK Diretor(DiretorId))
 
 Avaliacao(UsuarioId INT PK/FK Usuario(UsuarioId), FilmeId INT PK/FK Filme(FilmeId), Nota INT, Comentario VARCHAR)
 
