@@ -1,18 +1,17 @@
-Esquema Relacional Avaliação Filmes
-
 Usuario(UsuarioId INT PK, Nome VARCHAR)
 
 Diretor(DiretorId INT PK, Nome VARCHAR)
 
 Genero(GeneroId INT PK, Nome VARCHAR)
 
-Ator(AtorId INT PK, Nome VARCHAR)
+Elenco(ElencoId INT PK, Nome VARCHAR)
 
 Filme(FilmeId INT PK, Nome VARCHAR, Ano INT, Duracao INT, DiretorId INT FK Diretor(DiretorId))
 
 Avaliacao(UsuarioId INT PK/FK Usuario(UsuarioId), FilmeId INT PK/FK Filme(FilmeId), Nota INT, Comentario VARCHAR)
 
-Ator_Filme(FilmeId INT PK/FK Filme(FilmeId), AtorId INT PK/FK Ator(AtorId))
+Ator_Filme(FilmeId INT PK/FK Filme(FilmeId), AtorId INT PK/FK Elenco(ElencoId))
 
 Filme_Genero(FilmeId INT PK/FK Filme(FilmeId), GeneroId INT PK/FK Genero(GeneroId))
+
 
