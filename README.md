@@ -1,4 +1,6 @@
 # RottenBananas
 Projeto de Disciplina Banco de Dados I
 
-Projeto de Avaliação de Filmes
+Avaliação de Filmes
+
+Usuários avaliam com notas e podem deixar comentários sobre o que acharam de um filme.
