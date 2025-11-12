@@ -1,4 +1,4 @@
-Usuario(UsuarioId INT PK, Nome VARCHAR)
+Usuario(UsuarioId INT PK, Nome VARCHAR, Login VARCHAR UNIQUE, Senha VARCHAR)
 
 Diretor(DiretorId INT PK, Nome VARCHAR)
 
@@ -13,6 +13,7 @@ Avaliacao(UsuarioId INT PK/FK Usuario(UsuarioId), FilmeId INT PK/FK Filme(FilmeI
 Elenco_Filme(FilmeId INT PK/FK Filme(FilmeId), ElencoId INT PK/FK Elenco(ElencoId))
 
 Filme_Genero(FilmeId INT PK/FK Filme(FilmeId), GeneroId INT PK/FK Genero(GeneroId))
+
 
 
 
