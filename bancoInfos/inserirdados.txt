@@ -1,0 +1,74 @@
+-- INSERÇÃO DE DADOS
+-------------------------------
+
+-- Inserindo Pessoas
+INSERT INTO "Pessoa" (nome, nacionalidade) VALUES
+('Steven Spielberg', 'EUA'),
+('Leonardo DiCaprio', 'EUA'),
+('Meryl Streep', 'EUA');
+
+-- Inserindo Diretores
+INSERT INTO "Diretor" (pessoa_id)
+SELECT pessoa_id FROM "Pessoa" WHERE nome = 'Steven Spielberg';
+
+-- Inserindo Atores
+INSERT INTO "Ator" (pessoa_id)
+SELECT pessoa_id FROM "Pessoa" WHERE nome IN ('Leonardo DiCaprio', 'Meryl Streep');
+
+-- Inserindo Usuários
+INSERT INTO "Usuario" (nome, login, senha) VALUES
+('Gustavo', 'gustavo123', 'senha123'),
+('Maria', 'maria456', 'senha456');
+
+-- Inserindo Filmes
+INSERT INTO "Filme" (nome, ano, duracao, sinopse, diretor_id) 
+SELECT 'A Lista de Schindler', 1993, 195, 'Filme sobre o Holocausto', pessoa_id
+FROM "Diretor" WHERE pessoa_id IN (SELECT pessoa_id FROM "Pessoa" WHERE nome = 'Steven Spielberg');
+
+INSERT INTO "Filme" (nome, ano, duracao, sinopse, diretor_id) 
+SELECT 'O Diabo Veste Prada', 2006, 109, 'Filme sobre moda e poder', pessoa_id
+FROM "Diretor" WHERE pessoa_id IN (SELECT pessoa_id FROM "Pessoa" WHERE nome = 'Steven Spielberg');
+
+-- Inserindo Gêneros
+INSERT INTO "Genero" (nome, classificacao) VALUES
+('Drama', '14'),
+('Comédia', '12');
+
+-- Relacionando Filmes e Gêneros
+INSERT INTO "Genero_Filme" (genero_id, filme_id)
+SELECT g.genero_id, f.filme_id
+FROM "Genero" g
+JOIN "Filme" f ON f.nome = 'A Lista de Schindler'
+WHERE g.nome = 'Drama';
+
+INSERT INTO "Genero_Filme" (genero_id, filme_id)
+SELECT g.genero_id, f.filme_id
+FROM "Genero" g
+JOIN "Filme" f ON f.nome = 'O Diabo Veste Prada'
+WHERE g.nome IN ('Drama', 'Comédia');
+
+-- Relacionando Atores e Filmes
+INSERT INTO "Ator_Filme" (ator_id, filme_id, papel)
+SELECT a.pessoa_id, f.filme_id, 'Oskar Schindler'
+FROM "Ator" a
+JOIN "Filme" f ON f.nome = 'A Lista de Schindler'
+WHERE a.pessoa_id = (SELECT pessoa_id FROM "Pessoa" WHERE nome = 'Leonardo DiCaprio');
+
+INSERT INTO "Ator_Filme" (ator_id, filme_id, papel)
+SELECT a.pessoa_id, f.filme_id, 'Miranda Priestly'
+FROM "Ator" a
+JOIN "Filme" f ON f.nome = 'O Diabo Veste Prada'
+WHERE a.pessoa_id = (SELECT pessoa_id FROM "Pessoa" WHERE nome = 'Meryl Streep');
+
+-- Inserindo Avaliações
+INSERT INTO "Avaliacao" (usuario_id, filme_id, nota, comentario)
+SELECT u.usuario_id, f.filme_id, 10, 'Filme incrível!'
+FROM "Usuario" u
+JOIN "Filme" f ON f.nome = 'A Lista de Schindler'
+WHERE u.nome = 'Gustavo';
+
+INSERT INTO "Avaliacao" (usuario_id, filme_id, nota, comentario)
+SELECT u.usuario_id, f.filme_id, 9, 'Muito divertido e emocionante'
+FROM "Usuario" u
+JOIN "Filme" f ON f.nome = 'O Diabo Veste Prada'
+WHERE u.nome = 'Maria';
