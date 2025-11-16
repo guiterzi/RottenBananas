@@ -1,2 +1,0 @@
-cd "C:\Program Files\PostgreSQL\18\bin"
-pg_ctl -D "C:\Program Files\PostgreSQL\18\data" start
