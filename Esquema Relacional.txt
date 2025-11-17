@@ -6,7 +6,7 @@ Diretor(PessoaId INT PK/FK Pessoa(PessoaId))
 
 Usuario(UsuarioId INT PK, Nome VARCHAR, Login VARCHAR UNIQUE, Senha VARCHAR)
 
-Filme(FilmeId INT PK, Nome VARCHAR, Ano INT, Duracao INT, Sinopse VARCHAR, DiretorId INT FK Diretor(PessoaId))
+Filme(FilmeId INT PK, Nome VARCHAR, Ano INT, Duracao INT, Sinopse VARCHAR)
 
 Avaliacao(UsuarioId INT PK/FK Usuario(UsuarioId), FilmeId INT PK/FK Filme(FilmeId), Nota INT, Comentario VARCHAR)
 
@@ -15,3 +15,5 @@ Genero(GeneroId INT PK, Classificacao VARCHAR)
 Genero_Filme(GeneroId INT PK/FK Genero(GeneroId), FilmeId INT PK/FK Filme(FilmeId))
 
 Ator_Filme(AtorId INT PK/FK Ator(PessoaId), FilmeId INT PK/FK Filme(FilmeId), Papel VARCHAR)
+
+Diretor_Filme(PessoaId INT PK/FK Pessoa(PessoaId), FilmeId INT PK/FK Filme(FilmeId))
