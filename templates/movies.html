@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Filmes{% endblock %}
+{% block content %}
+<h2>Lista de Filmes</h2>
+<ul>
+    {% for filme in filmes %}
+    <li>
+        <a href="/filme/{{ filme.filmeid }}">{{ filme.nome }}</a>
+        {% if filme.rating %}
+            - Média: {{ '%.1f'|format(filme.rating) }} ({{ filme.rating_count }} avaliações)
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

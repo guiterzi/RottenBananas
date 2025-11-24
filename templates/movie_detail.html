@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}{{ filme.nome }}{% endblock %}
+{% block content %}
+<h2>{{ filme.nome }}</h2>
+<p>Ano: {{ filme.ano }}</p>
+<p>Duração: {{ filme.duracao }} minutos</p>
+<p>Sinopse: {{ filme.sinopse }}</p>
+{% if filme.rating %}
+<p>Média: {{ '%.1f'|format(filme.rating) }} ({{ filme.rating_count }} avaliações)</p>
+{% endif %}
+
+<h3>Avaliações:</h3>
+<ul>
+    {% for a in filme.reviews %}
+    <li>Usuário {{ a.usuarioid }}: Nota {{ a.nota }} {% if a.comentario %}- {{ a.comentario }}{% endif %}</li>
+    {% endfor %}
+</ul>
+
+{% if session.get('usuarioid') %}
+<h3>Adicionar Avaliação:</h3>
+<form method="post">
+    <label>Nota (0 a 10):</label>
+    <input type="number" name="nota" min="0" max="10" required>
+    <label>Comentário:</label>
+    <textarea name="comentario"></textarea>
+    <button type="submit">Avaliar</button>
+</form>
+{% else %}
+<p>Faça login para avaliar este filme.</p>
+{% endif %}
+{% endblock %}
