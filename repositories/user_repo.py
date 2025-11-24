@@ -9,12 +9,12 @@ class UserRepo:
             "INSERT INTO Usuario (Nome, Login, Senha) VALUES (%s, %s, %s) RETURNING UsuarioId, Nome, Login",
             (nome, login, senha)
         )
-        row = cur.fetchone()
+        resultados_query = cur.fetchone()
         conn.commit()
         cur.close()
         conn.close()
-        if row:
-            return Usuario(row[0], row[1], row[2])
+        if resultados_query:
+            return Usuario(resultados_query[0], resultados_query[1], resultados_query[2])
         return None
 
     def get_user_by_login_senha(self, login, senha):
@@ -24,9 +24,9 @@ class UserRepo:
             "SELECT UsuarioId, Nome, Login FROM Usuario WHERE Login=%s AND Senha=%s",
             (login, senha)
         )
-        row = cur.fetchone()
+        resultados_query = cur.fetchone()
         cur.close()
         conn.close()
-        if row:
-            return Usuario(row[0], row[1], row[2])
+        if resultados_query:
+            return Usuario(resultados_query[0], resultados_query[1], resultados_query[2])
         return None

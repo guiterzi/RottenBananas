@@ -5,6 +5,13 @@
 <p>Ano: {{ filme.ano }}</p>
 <p>Duração: {{ filme.duracao }} minutos</p>
 <p>Sinopse: {{ filme.sinopse }}</p>
+
+{% if filme['posterurl'] %}
+    <img src="{{ filme['posterurl'] }}" alt="Poster de {{ filme['nome'] }}" style="max-width:200px;">
+{% else %}
+    <p>Poster não disponível.</p>
+{% endif %}
+
 {% if filme.rating %}
 <p>Média: {{ '%.1f'|format(filme.rating) }} ({{ filme.rating_count }} avaliações)</p>
 {% endif %}

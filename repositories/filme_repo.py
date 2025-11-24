@@ -4,18 +4,18 @@ class FilmeRepo:
         conn = get_connection()
         cur = conn.cursor()
         cur.execute("SELECT FilmeId, Nome, Ano, Duracao, Sinopse FROM Filme")
-        rows = cur.fetchall()
+        resultados_query = cur.fetchall()
         cur.close()
         conn.close()
 
         filmes = []
-        for r in rows:
+        for i in resultados_query:
             filmes.append({
-                'filmeid': r[0],
-                'nome': r[1],
-                'ano': r[2],
-                'duracao': r[3],
-                'sinopse': r[4]
+                'filmeid': i[0],
+                'nome': i[1],
+                'ano': i[2],
+                'duracao': i[3],
+                'sinopse': i[4]
             })
         return filmes
 
@@ -23,16 +23,16 @@ class FilmeRepo:
         conn = get_connection()
         cur = conn.cursor()
         cur.execute("SELECT FilmeId, Nome, Ano, Duracao, Sinopse FROM Filme WHERE FilmeId = %s", (filmeid,))
-        row = cur.fetchone()
+        resultados_query = cur.fetchone()
         cur.close()
         conn.close()
-        if row:
+        if resultados_query:
             return {
-                'filmeid': row[0],
-                'nome': row[1],
-                'ano': row[2],
-                'duracao': row[3],
-                'sinopse': row[4]
+                'filmeid': resultados_query[0],
+                'nome': resultados_query[1],
+                'ano': resultados_query[2],
+                'duracao': resultados_query[3],
+                'sinopse': resultados_query[4]
             }
         return None
 
@@ -40,18 +40,18 @@ class FilmeRepo:
         conn = get_connection()
         cur = conn.cursor()
         cur.execute("SELECT FilmeId, Nome, Ano, Duracao, Sinopse FROM Filme WHERE LOWER(Nome) LIKE %s", ('%' + query.lower() + '%',))
-        rows = cur.fetchall()
+        resultados_query = cur.fetchall()
         cur.close()
         conn.close()
 
         filmes = []
-        for r in rows:
+        for i in resultados_query:
             filmes.append({
-                'filmeid': r[0],
-                'nome': r[1],
-                'ano': r[2],
-                'duracao': r[3],
-                'sinopse': r[4]
+                'filmeid': i[0],
+                'nome': i[1],
+                'ano': i[2],
+                'duracao': i[3],
+                'sinopse':i[4]
             })
         return filmes
     
@@ -59,21 +59,22 @@ class FilmeRepo:
             conn = get_connection()
             cur = conn.cursor()
             cur.execute(f"""
-            SELECT filme.filmeid, filme.nome, AVG(avaliacao.nota) AS media
-            FROM filme
-            JOIN avaliacao ON avaliacao.filmeid = filme.filmeid
-            GROUP BY filme.filmeid, filme.nome
-            ORDER BY media DESC
-            LIMIT {limit}""")
-            rows = cur.fetchall()
+            SELECT Filme.FilmeId, Filme.Nome, AVG(Avaliacao.Nota)
+            FROM Filme
+            JOIN Avaliacao ON Avaliacao.FilmeId = Filme.FilmeId
+            GROUP BY Filme.FilmeId, Filme.Nome
+            ORDER BY AVG(Avaliacao.Nota) DESC
+            LIMIT {limit}
+            """)
+            resultados_query = cur.fetchall()
             cur.close()
 
             filmes = []
-            for r in rows:
+            for i in resultados_query:
                 filmes.append({
-                    'filmeid': r[0],
-                    'nome': r[1],
-                    'media': r[2]
+                    'filmeid': i[0],
+                    'nome': i[1],
+                    'media': i[2]
                 })
 
             return filmes
