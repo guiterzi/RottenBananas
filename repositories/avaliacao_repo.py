@@ -1,7 +1,7 @@
 from bancodedados import get_connection
 
 class AvaliacaoRepo:
-    def list_avaliacoes_por_filme(self, filmeid):
+    def listar_avaliacoes_por_filme(self, filmeid):
         conn = get_connection()
         cur = conn.cursor()
         cur.execute("""
@@ -24,7 +24,7 @@ class AvaliacaoRepo:
             })
         return avaliacoes
 
-    def create_avaliacao(self, usuarioid, filmeid, nota, comentario):
+    def avaliar(self, usuarioid, filmeid, nota, comentario):
         conn = get_connection()
         cur = conn.cursor()
         cur.execute("""
@@ -39,7 +39,7 @@ class AvaliacaoRepo:
         cur.close()
         conn.close()
 
-    def list_avaliacoes_por_usuario(self, usuarioid):
+    def listar_avaliacoes_por_usuario(self, usuarioid):
         conn = get_connection()
         cur = conn.cursor()
         cur.execute("""

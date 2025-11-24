@@ -4,8 +4,8 @@ class AuthService:
     def __init__(self):
         self.repo = UserRepo()
 
-    def register(self, nome, login, senha):
-        return self.repo.create_user(nome, login, senha)
+    def registrar(self, nome, login, senha):
+        return self.repo.criar_usuario(nome, login, senha)
 
     def login(self, login, senha):
-        return self.repo.get_user_by_login_senha(login, senha)
+        return self.repo.logar(login, senha)

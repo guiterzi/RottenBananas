@@ -4,12 +4,12 @@ class AvaliacaoService:
     def __init__(self):
         self.repo = AvaliacaoRepo()
 
-    def create_avaliacao(self, usuarioid, filmeid, nota, comentario):
-        self.repo.create_avaliacao(usuarioid, filmeid, nota, comentario)
+    def avaliar(self, usuarioid, filmeid, nota, comentario):
+        self.repo.avaliar(usuarioid, filmeid, nota, comentario)
 
-    def list_avaliacoes_por_filme(self, filmeid):
-        return self.repo.list_avaliacoes_por_filme(filmeid)
+    def listar_avaliacoes_por_filme(self, filmeid):
+        return self.repo.listar_avaliacoes_por_filme(filmeid)
     
-    def list_avaliacoes_por_usuario(self, usuarioid):
-        return self.repo.list_avaliacoes_por_usuario(usuarioid)
+    def listar_avaliacoes_por_usuario(self, usuarioid):
+        return self.repo.listar_avaliacoes_por_usuario(usuarioid)
 

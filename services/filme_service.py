@@ -6,10 +6,10 @@ class FilmeService:
         self.repo = FilmeRepo()
         self.av_repo = AvaliacaoRepo()
 
-    def list_filmes(self):
-        filmes = self.repo.list_filmes()
+    def listar_filmes(self):
+        filmes = self.repo.listar_filmes()
         for f in filmes:
-            avals = self.av_repo.list_avaliacoes_por_filme(f['filmeid'])
+            avals = self.av_repo.listar_avaliacoes_por_filme(f['filmeid'])
             if avals:
                 f['rating'] = sum(a['nota'] for a in avals)/len(avals)
                 f['rating_count'] = len(avals)
@@ -20,10 +20,10 @@ class FilmeService:
                 f['reviews'] = []
         return filmes
 
-    def get_filme_detail(self, filmeid):
+    def get_filme_detalhes(self, filmeid):
         f = self.repo.get_filme(filmeid)
         if f:
-            avals = self.av_repo.list_avaliacoes_por_filme(f['filmeid'])
+            avals = self.av_repo.listar_avaliacoes_por_filme(f['filmeid'])
             f['reviews'] = avals
             if avals:
                 f['rating'] = sum(a['nota'] for a in avals)/len(avals)
@@ -33,10 +33,10 @@ class FilmeService:
                 f['rating_count'] = 0
         return f
 
-    def search_filmes(self, query):
+    def buscar_filmes(self, query):
         filmes = self.repo.search_filmes(query)
         for f in filmes:
-            avals = self.av_repo.list_avaliacoes_por_filme(f['filmeid'])
+            avals = self.av_repo.listar_avaliacoes_por_filme(f['filmeid'])
             if avals:
                 f['rating'] = sum(a['nota'] for a in avals)/len(avals)
                 f['rating_count'] = len(avals)

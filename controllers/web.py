@@ -19,7 +19,7 @@ def register():
         nome = request.form['nome']
         login = request.form['login']
         senha = request.form['senha']
-        user = auth_service.register(nome, login, senha)
+        user = auth_service.registrar(nome, login, senha)
 
         if user:
             session['usuarioid']=user.usuarioid
@@ -49,23 +49,23 @@ def logout():
 
 @web.route('/filmes')
 def filmes():
-    filmes = filme_service.list_filmes()
+    filmes = filme_service.listar_filmes()
     return render_template('movies.html', filmes=filmes)
 
 @web.route('/filme/<int:filmeid>', methods=['GET','POST'])
 def filme_detail(filmeid):
-    filme = filme_service.get_filme_detail(filmeid)
+    filme = filme_service.get_filme_detalhes(filmeid)
     if request.method=='POST' and 'usuarioid' in session:
         nota = int(request.form['nota'])
         comentario = request.form['comentario']
-        avaliacao_service.create_avaliacao(session['usuarioid'], filmeid, nota, comentario)
+        avaliacao_service.avaliar(session['usuarioid'], filmeid, nota, comentario)
         return redirect(url_for('web.filme_detail', filmeid=filmeid))
     return render_template('movie_detail.html', filme=filme)
 
 @web.route('/perfil')
 def perfil():
     usuarioid = session.get('usuarioid')
-    avaliacoes = avaliacao_service.list_avaliacoes_por_usuario(usuarioid)
+    avaliacoes = avaliacao_service.listar_avaliacoes_por_usuario(usuarioid)
     return render_template('user_profile.html', avaliacoes=avaliacoes)
 
 
@@ -73,7 +73,7 @@ def perfil():
 def buscar():
     query = request.args.get('q')
     if query:
-        filmes = filme_service.search_filmes(query)
+        filmes = filme_service.buscar_filmes(query)
     else:
         filmes = []
     return render_template('search.html', filmes=filmes, query=query)

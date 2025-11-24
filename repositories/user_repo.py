@@ -2,7 +2,7 @@ import bancodedados
 from models.usuario import Usuario
 
 class UserRepo:
-    def create_user(self, nome, login, senha):
+    def criar_usuario(self, nome, login, senha):
         conn = bancodedados.get_connection()
         cur = conn.cursor()
         cur.execute(
@@ -17,7 +17,7 @@ class UserRepo:
             return Usuario(resultados_query[0], resultados_query[1], resultados_query[2])
         return None
 
-    def get_user_by_login_senha(self, login, senha):
+    def logar(self, login, senha):
         conn = bancodedados.get_connection()
         cur = conn.cursor()
         cur.execute(

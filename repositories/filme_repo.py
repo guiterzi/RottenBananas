@@ -1,6 +1,6 @@
 from bancodedados import get_connection
 class FilmeRepo:
-    def list_filmes(self):
+    def listar_filmes(self):
         conn = get_connection()
         cur = conn.cursor()
         cur.execute("SELECT FilmeId, Nome, Ano, Duracao, Sinopse FROM Filme")
@@ -36,10 +36,10 @@ class FilmeRepo:
             }
         return None
 
-    def search_filmes(self, query):
+    def buscar_filmes(self, nome):
         conn = get_connection()
         cur = conn.cursor()
-        cur.execute("SELECT FilmeId, Nome, Ano, Duracao, Sinopse FROM Filme WHERE LOWER(Nome) LIKE %s", ('%' + query.lower() + '%',))
+        cur.execute("SELECT FilmeId, Nome, Ano, Duracao, Sinopse FROM Filme WHERE LOWER(Nome) LIKE %s", ('%' + nome.lower() + '%',))
         resultados_query = cur.fetchall()
         cur.close()
         conn.close()

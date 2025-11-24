@@ -5,5 +5,5 @@ def get_connection():
         host="localhost",
         database="BANCOFILMES",
         user="postgres",
-        password="senha"
+        password="123456"
     )
