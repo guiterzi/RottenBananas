@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Melhores Filmes{% endblock %}
+{% block content %}
+<h1>Melhores Filmes</h1>
+<p>Os filmes mais bem avaliados pelos usuários:</p>
+
+<ul>
+    {% for f in melhores_filmes %}
+    <li>
+        <a href="{{ url_for('web.filme_detail', filmeid=f['filmeid']) }}">
+            {{ f['nome'] }} — Média: {{ '%.1f'|format(f['media']) }}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+
+<a href="{{ url_for('web.index') }}"><button>Voltar</button></a>
+{% endblock %}

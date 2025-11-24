@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Meu Perfil{% endblock %}
+{% block content %}
+<h2>Meu Perfil</h2>
+<p>Nome: {{ session.get('nome') }}</p>
+<h3>Minhas Avaliações</h3>
+<ul>
+    {% for a in avaliacoes %}
+    <li>{{ a['filme_nome'] }} - Nota {{ a['nota'] }} {% if a['comentario'] %}- {{ a['comentario'] }}{% endif %}</li>
+    {% endfor %}
+</ul>
+
+<a href="{{ url_for('web.index') }}"><button>Voltar</button></a>
+
+{% endblock %}
