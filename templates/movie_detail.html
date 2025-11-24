@@ -12,9 +12,12 @@
 <h3>Avaliações:</h3>
 <ul>
     {% for a in filme.reviews %}
-    <li>Usuário {{ a.usuarioid }}: Nota {{ a.nota }} {% if a.comentario %}- {{ a.comentario }}{% endif %}</li>
+    <li>Usuário {{ a['usuario_nome'] }}: Nota {{ a['nota'] }} {% if a['comentario'] %}- {{ a['comentario'] }}{% endif %}</li>
     {% endfor %}
+
 </ul>
+
+
 
 {% if session.get('usuarioid') %}
 <h3>Adicionar Avaliação:</h3>

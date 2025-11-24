@@ -11,7 +11,7 @@ avaliacao_service = AvaliacaoService()
 
 @web.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('home.html')
 
 @web.route('/register', methods=['GET','POST'])
 def register():
@@ -20,10 +20,12 @@ def register():
         login = request.form['login']
         senha = request.form['senha']
         user = auth_service.register(nome, login, senha)
+
         if user:
             session['usuarioid']=user.usuarioid
             session['nome']=user.nome
             return redirect(url_for('web.index'))
+        
     return render_template('register.html')
 
 @web.route('/login', methods=['GET','POST'])
@@ -32,10 +34,12 @@ def login():
         login_val = request.form['login']
         senha = request.form['senha']
         user = auth_service.login(login_val, senha)
+
         if user:
             session['usuarioid']=user.usuarioid
             session['nome']=user.nome
             return redirect(url_for('web.index'))
+        
     return render_template('login.html')
 
 @web.route('/logout')
@@ -58,13 +62,6 @@ def filme_detail(filmeid):
         return redirect(url_for('web.filme_detail', filmeid=filmeid))
     return render_template('movie_detail.html', filme=filme)
 
-# @web.route('/perfil')
-# def perfil():
-#     if 'usuarioid' not in session:
-#         return redirect(url_for('web.login'))
-#     avaliacoes = avaliacao_service.list_avaliacoes_by_usuario(session['usuarioid'])
-#     return render_template('user_profile.html', avaliacoes=avaliacoes)
-
 @web.route('/perfil')
 def perfil():
     usuarioid = session.get('usuarioid')
@@ -75,5 +72,13 @@ def perfil():
 @web.route('/buscar', methods=['GET'])
 def buscar():
     query = request.args.get('q')
-    filmes = filme_service.search_filmes(query) if query else []
+    if query:
+        filmes = filme_service.search_filmes(query)
+    else:
+        filmes = []
     return render_template('search.html', filmes=filmes, query=query)
+
+@web.route('/melhores')
+def melhores():
+    melhores_filmes = filme_service.melhores_filmes(10)
+    return render_template('melhores_filmes.html', melhores_filmes=melhores_filmes)
