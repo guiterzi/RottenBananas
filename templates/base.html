@@ -11,9 +11,11 @@
         <a href="/filmes">Filmes</a>
         {% if session.get('usuarioid') %}
             <a href="/perfil">Perfil</a>
-            
             <a href="/melhores">Melhores Filmes</a>
-
+            {% if session.get('admin') %}                                          
+                <a href="/admin/favoritos-oscar">Admin - Favoritos ao Oscar</a>
+            {% endif %}
+            <a href="/favoritos-oscar">Favoritos ao Oscar</a>
             <a href="/logout">Logout</a>
         {% else %}
             <a href="/login">Login</a>

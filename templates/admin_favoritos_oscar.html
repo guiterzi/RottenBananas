@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Admin - Favoritos ao Oscar{% endblock %}
+
+{% block content %}
+<h2>Gerenciar Filmes Favoritos ao Oscar</h2>
+
+<h3>Filmes já adicionados</h3>
+<ul>
+    {% for f in filmes_oscar %}
+        <li>
+            {{ f.nome }} ({{ f.ano }})
+            <a href="{{ url_for('admin.admin_remover_favorito', filmeid=f.filmeid) }}">Remover</a>
+            <a href="{{ url_for('admin.admin_editar_questoes', filmeid=f.filmeid) }}">Editar Questões</a>
+        </li>
+    {% endfor %}
+
+</ul>
+
+<hr>
+
+<h3>Adicionar Filme</h3>
+<form method="post" action="{{ url_for('admin.admin_adicionar_favorito') }}">
+    <label for="filmeid">Selecione um filme:</label>
+    <select name="filmeid" required>
+        {% for f in todos_filmes %}
+            <option value="{{ f.filmeid }}">{{ f.nome }} ({{ f.ano }})</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Adicionar</button>
+</form>
+{% endblock %}

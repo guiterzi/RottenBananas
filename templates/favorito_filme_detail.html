@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}{{ filme.nome }}{% endblock %}
+
+{% block content %}
+<h2>{{ filme.nome }} ({{ filme.ano }})</h2>
+<p><strong>Duração:</strong> {{ filme.duracao }} min</p>
+<p><strong>Sinopse:</strong> {{ filme.sinopse }}</p>
+
+<h3>Responda as questões sobre este filme:</h3>
+
+<form method="post">
+    {% for q in questoes %}
+        <div style="margin-bottom: 15px;">
+            <label><strong>{{ q.texto }}</strong></label><br>
+            <select name="questao_{{ q.questaoid }}">
+                <option value="Sim">Sim</option>
+                <option value="Não">Não</option>
+                <option value="Talvez">Talvez</option>
+            </select>
+        </div>
+    {% endfor %}
+    <button type="submit">Enviar respostas</button>
+</form>
+
+{% endblock %}

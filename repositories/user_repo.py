@@ -6,27 +6,27 @@ class UserRepo:
         conn = bancodedados.get_connection()
         cur = conn.cursor()
         cur.execute(
-            "INSERT INTO Usuario (Nome, Login, Senha) VALUES (%s, %s, %s) RETURNING UsuarioId, Nome, Login",
+            "INSERT INTO Usuario (Nome, Login, Senha) VALUES (%s, %s, %s) RETURNING UsuarioId, Nome, Login, Admin",
             (nome, login, senha)
         )
-        resultados_query = cur.fetchone()
+        row = cur.fetchone()
         conn.commit()
         cur.close()
         conn.close()
-        if resultados_query:
-            return Usuario(resultados_query[0], resultados_query[1], resultados_query[2])
+        if row:
+            return Usuario(row[0], row[1], row[2], row[3])
         return None
 
     def logar(self, login, senha):
         conn = bancodedados.get_connection()
         cur = conn.cursor()
         cur.execute(
-            "SELECT UsuarioId, Nome, Login FROM Usuario WHERE Login=%s AND Senha=%s",
+            "SELECT UsuarioId, Nome, Login, Admin FROM Usuario WHERE Login=%s AND Senha=%s",
             (login, senha)
         )
-        resultados_query = cur.fetchone()
+        row = cur.fetchone()
         cur.close()
         conn.close()
-        if resultados_query:
-            return Usuario(resultados_query[0], resultados_query[1], resultados_query[2])
+        if row:
+            return Usuario(row[0], row[1], row[2], row[3])
         return None

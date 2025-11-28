@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Favoritos ao Oscar{% endblock %}
+
+{% block content %}
+<h2>Favoritos ao Oscar</h2>
+<ul>
+    {% for f in filmes %}
+        <li>
+            <a href="{{ url_for('web.favorito_filme_detail', filmeid=f.filmeid) }}">
+                {{ f.nome }} ({{ f.ano }})
+            </a>
+            {% if f.rating %}
+                - Nota média: {{ f.rating|round(1) }} ({{ f.rating_count }} avaliações)
+            {% endif %}
+        </li>
+    {% else %}
+        <li>Nenhum filme cadastrado nesta seção.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

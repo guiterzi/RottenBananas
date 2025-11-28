@@ -24,6 +24,7 @@ def register():
         if user:
             session['usuarioid']=user.usuarioid
             session['nome']=user.nome
+            session['admin'] = user.admin
             return redirect(url_for('web.index'))
         
     return render_template('register.html')
@@ -38,6 +39,7 @@ def login():
         if user:
             session['usuarioid']=user.usuarioid
             session['nome']=user.nome
+            session['admin'] = user.admin
             return redirect(url_for('web.index'))
         
     return render_template('login.html')
@@ -82,3 +84,29 @@ def buscar():
 def melhores():
     melhores_filmes = filme_service.melhores_filmes(10)
     return render_template('melhores_filmes.html', melhores_filmes=melhores_filmes)
+
+@web.route('/favoritos-oscar')
+def favoritos_oscar():
+    filmes = filme_service.listar_filmes_oscar()
+    return render_template('favoritos_oscar.html', filmes=filmes)
+
+
+
+
+@web.route('/favoritos-oscar/<int:filmeid>', methods=['GET', 'POST'])
+def favorito_filme_detail(filmeid):
+    usuarioid = session.get('usuarioid')
+    if not usuarioid:
+        return redirect(url_for('web.login'))
+
+    filme = filme_service.get_filme_detalhes(filmeid)
+    questoes = avaliacao_service.listar_questoes_por_filme(filmeid)
+
+    if request.method == 'POST':
+        for questao in questoes:
+            valor = request.form.get(f'questao_{questao["questaoid"]}')
+            if valor:
+                avaliacao_service.responder(usuarioid, filmeid, questao["questaoid"], valor)
+        return redirect(url_for('web.favorito_filme_detail', filmeid=filmeid))
+
+    return render_template('favorito_filme_detail.html', filme=filme, questoes=questoes)

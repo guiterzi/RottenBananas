@@ -78,3 +78,46 @@ class FilmeRepo:
                 })
 
             return filmes
+    
+
+    ######################
+    def listar_filmes_oscar(self):
+        conn = get_connection()
+        cur = conn.cursor()
+        cur.execute(
+            f"""
+        SELECT f.* FROM FavoritosOscar fo
+        JOIN Filme f ON fo.FilmeId = f.FilmeId
+        """)
+        resultados_query = cur.fetchall()
+        cur.close()
+        conn.close()
+
+        filmes = []
+        for i in resultados_query:
+            filmes.append({
+                'filmeid': i[0],
+                'nome': i[1],
+                'ano': i[2],
+                'duracao': i[3],
+                'sinopse': i[4]
+            })
+        return filmes
+    
+    def adicionar_favorito_oscar(self, filmeid):
+        conn = get_connection()
+        cur = conn.cursor()
+        cur.execute("INSERT INTO FavoritosOscar (FilmeId) VALUES (%s)", (filmeid,))
+        conn.commit()
+        cur.close()
+        conn.close()
+
+    def remover_favorito_oscar(self, filmeid):
+        conn = get_connection()
+        cur = conn.cursor()
+        cur.execute("DELETE FROM FavoritosOscar WHERE FilmeId=%s", (filmeid,))
+        conn.commit()
+        cur.close()
+        conn.close()
+
+

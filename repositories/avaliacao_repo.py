@@ -61,3 +61,82 @@ class AvaliacaoRepo:
                 'comentario': i[3]
             })
         return avaliacoes
+    
+    def listar_questoes_por_filme(self, filmeid):
+        conn = get_connection()
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT q.QuestaoId, q.Texto
+            FROM FilmeQuestao fq
+            JOIN Questao q ON fq.QuestaoId = q.QuestaoId
+            WHERE fq.FilmeId = %s
+        """, (filmeid,))
+        resultados_query = cur.fetchall()
+        cur.close()
+        conn.close()
+
+        questoes = []
+        for i in resultados_query:
+            questoes.append({
+                'questaoid': i[0],
+                'texto': i[1]
+            })
+        return questoes
+    
+    def responder_questao(self, usuarioid, filmeid, questaoid, valor):
+        conn = get_connection()
+        cur = conn.cursor()
+        # Remover resposta anterior se existir
+        cur.execute("""
+            DELETE FROM Resposta
+            WHERE UsuarioId = %s AND FilmeId = %s AND QuestaoId = %s
+        """, (usuarioid, filmeid, questaoid))
+        # Inserir nova resposta
+        cur.execute("""
+            INSERT INTO Resposta (UsuarioId, FilmeId, QuestaoId, Valor)
+            VALUES (%s, %s, %s, %s)
+        """, (usuarioid, filmeid, questaoid, valor))
+        conn.commit()
+        cur.close()
+        conn.close()
+
+    def listar_questoes_disponiveis(self, filmeid):
+        # Questões que ainda não estão associadas ao filme
+        conn = get_connection()
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT QuestaoId, Texto FROM Questao
+            WHERE QuestaoId NOT IN (
+                SELECT QuestaoId FROM FilmeQuestao WHERE FilmeId = %s
+            )
+        """, (filmeid,))
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+        return [{'questaoid': r[0], 'texto': r[1]} for r in rows]
+
+    def associar_questao_filme(self, filmeid, questaoid):
+        conn = get_connection()
+        cur = conn.cursor()
+        cur.execute("INSERT INTO FilmeQuestao (FilmeId, QuestaoId) VALUES (%s,%s)", (filmeid, questaoid))
+        conn.commit()
+        cur.close()
+        conn.close()
+
+    def criar_questao(self, texto):
+        conn = get_connection()
+        cur = conn.cursor()
+        cur.execute("INSERT INTO Questao (Texto) VALUES (%s) RETURNING QuestaoId", (texto,))
+        questaoid = cur.fetchone()[0]
+        conn.commit()
+        cur.close()
+        conn.close()
+        return questaoid
+
+    def remover_questao_filme(self, filmeid, questaoid):
+        conn = get_connection()
+        cur = conn.cursor()
+        cur.execute("DELETE FROM FilmeQuestao WHERE FilmeId=%s AND QuestaoId=%s", (filmeid, questaoid))
+        conn.commit()
+        cur.close()
+        conn.close()

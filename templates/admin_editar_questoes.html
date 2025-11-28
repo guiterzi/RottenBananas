@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Editar Questões - {{ filme.nome }}{% endblock %}
+
+{% block content %}
+<h2>Editar Questões do Filme: {{ filme.nome }}</h2>
+
+<h3>Questões já associadas:</h3>
+<ul>
+    {% for q in questoes_filme %}
+        <li>
+            {{ q['texto'] }}
+            <a href="{{ url_for('admin.admin_remover_questao', filmeid=filme.filmeid, questaoid=q['questaoid']) }}">
+                Remover
+            </a>
+        </li>
+    {% else %}
+        <li>Nenhuma questão associada ainda.</li>
+    {% endfor %}
+</ul>
+
+<h3>Adicionar questões existentes:</h3>
+<form method="post" action="{{ url_for('admin.admin_salvar_questoes', filmeid=filme.filmeid) }}">
+    {% for q in questoes_disponiveis %}
+        <div>
+            <input type="checkbox" name="questoes" value="{{ q['questaoid'] }}">
+            <label>{{ q['texto'] }}</label>
+        </div>
+    {% else %}
+        <p>Nenhuma questão disponível.</p>
+    {% endfor %}
+    <button type="submit">Salvar questões selecionadas</button>
+</form>
+
+
+
+<h3>Criar nova questão:</h3>
+<form method="post" action="{{ url_for('admin.admin_criar_questao', filmeid=filme.filmeid) }}">
+    <input type="text" name="texto" placeholder="Digite o texto da questão" required>
+    <button type="submit">Criar e adicionar</button>
+</form>
+
+<br>
+<a href="{{ url_for('admin.admin_favoritos_oscar') }}">Voltar</a>
+{% endblock %}
