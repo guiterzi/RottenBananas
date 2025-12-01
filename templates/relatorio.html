@@ -1,0 +1,18 @@
+<form method="POST">
+    <select name="filmeid">
+        {% for f in filmes %}
+            <option value="{{ f.filmeid }}" {% if f.filmeid|string == filmeid %}selected{% endif %}>
+                {{ f.nome }}
+            </option>
+        {% endfor %}
+    </select>
+    <button type="submit">Gerar Relatório</button>
+</form>
+
+<a href="{{ url_for('web.index') }}"><button>Voltar</button></a>
+{% for img in graficos %}
+    <div>
+        <img src="data:image/png;base64,{{ img }}" />
+    </div>
+    
+{% endfor %}

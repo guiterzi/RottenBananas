@@ -86,12 +86,12 @@ class AvaliacaoRepo:
     def responder_questao(self, usuarioid, filmeid, questaoid, valor):
         conn = get_connection()
         cur = conn.cursor()
-        # Remover resposta anterior se existir
+        
         cur.execute("""
             DELETE FROM Resposta
             WHERE UsuarioId = %s AND FilmeId = %s AND QuestaoId = %s
         """, (usuarioid, filmeid, questaoid))
-        # Inserir nova resposta
+        
         cur.execute("""
             INSERT INTO Resposta (UsuarioId, FilmeId, QuestaoId, Valor)
             VALUES (%s, %s, %s, %s)
@@ -101,7 +101,6 @@ class AvaliacaoRepo:
         conn.close()
 
     def listar_questoes_disponiveis(self, filmeid):
-        # Questões que ainda não estão associadas ao filme
         conn = get_connection()
         cur = conn.cursor()
         cur.execute("""
@@ -137,6 +136,29 @@ class AvaliacaoRepo:
         conn = get_connection()
         cur = conn.cursor()
         cur.execute("DELETE FROM FilmeQuestao WHERE FilmeId=%s AND QuestaoId=%s", (filmeid, questaoid))
+        conn.commit()
+        cur.close()
+        conn.close()
+
+    def deletar_questao(self, questao_id):
+        conn = get_connection()
+        cur = conn.cursor()
+
+        cur.execute("""
+            DELETE FROM FilmeQuestao
+            WHERE QuestaoId = %s
+        """, (questao_id,))
+
+        cur.execute("""
+            DELETE FROM Resposta
+            WHERE QuestaoId = %s
+        """, (questao_id,))
+
+        cur.execute("""
+            DELETE FROM Questao
+            WHERE QuestaoId = %s
+        """, (questao_id,))
+
         conn.commit()
         cur.close()
         conn.close()

@@ -84,3 +84,9 @@ def admin_salvar_questoes(filmeid):
         avaliacao_service.associar_questao_filme(filmeid, qid)
 
     return redirect(url_for('admin.admin_editar_questoes', filmeid=filmeid))
+
+@admin.route('/questoes/deletar/<int:questaoid>')
+@admin_required
+def admin_deletar_questao(questaoid):
+    avaliacao_service.deletar_questao(questaoid)
+    return redirect(request.referrer)

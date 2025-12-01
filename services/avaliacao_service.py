@@ -13,11 +13,9 @@ class AvaliacaoService:
     def listar_avaliacoes_por_usuario(self, usuarioid):
         return self.repo.listar_avaliacoes_por_usuario(usuarioid)
 
-#################
     def listar_questoes_por_filme(self, filmeid):
         return self.repo.listar_questoes_por_filme(filmeid)
 
-    # Registrar respostas do usuário a questões de um filme
     def responder(self, usuarioid, filmeid, questaoid, valor):
         self.repo.responder_questao(usuarioid, filmeid, questaoid, valor)
 
@@ -32,3 +30,6 @@ class AvaliacaoService:
 
     def remover_questao_filme(self, filmeid, questaoid):
         self.repo.remover_questao_filme(filmeid, questaoid)
+
+    def deletar_questao(self, questaoid):
+        self.repo.deletar_questao(questaoid)

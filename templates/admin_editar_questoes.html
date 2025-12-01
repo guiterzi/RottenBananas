@@ -5,7 +5,7 @@
 <h2>Editar Questões do Filme: {{ filme.nome }}</h2>
 
 <h3>Questões já associadas:</h3>
-<ul>
+<!-- <ul>
     {% for q in questoes_filme %}
         <li>
             {{ q['texto'] }}
@@ -16,11 +16,25 @@
     {% else %}
         <li>Nenhuma questão associada ainda.</li>
     {% endfor %}
-</ul>
+</ul> -->
+    <ul>
+    {% for q in questoes_filme %}
+        <li>
+            {{ q.texto }}
+        <!-- remover só da associação -->
+            <a href="{{ url_for('admin.admin_remover_questao', filmeid=filme.filmeid, questaoid=q.questaoid) }}"
+                class="btn btn-warning btn-sm">Desassociar</a>
+
+        <!-- excluir do banco de dados -->
+            <a href="{{ url_for('admin.admin_deletar_questao', questaoid=q.questaoid) }}"
+                class="btn btn-danger btn-sm">Excluir</a>
+        </li>
+    {% endfor %}
+    </ul>
 
 <h3>Adicionar questões existentes:</h3>
 <form method="post" action="{{ url_for('admin.admin_salvar_questoes', filmeid=filme.filmeid) }}">
-    {% for q in questoes_disponiveis %}
+    <!-- {% for q in questoes_disponiveis %}
         <div>
             <input type="checkbox" name="questoes" value="{{ q['questaoid'] }}">
             <label>{{ q['texto'] }}</label>
@@ -28,6 +42,18 @@
     {% else %}
         <p>Nenhuma questão disponível.</p>
     {% endfor %}
+    <button type="submit">Salvar questões selecionadas</button> -->
+    <ul>
+    {% for q in questoes_disponiveis %}
+        <li>
+            {{ q.texto }}
+            <input type="checkbox" name="questoes" value="{{ q.questaoid }}">
+
+            <a href="{{ url_for('admin.admin_deletar_questao', questaoid=q.questaoid) }}"
+            class="btn btn-danger btn-sm">Excluir</a>
+        </li>
+    {% endfor %}
+    </ul>
     <button type="submit">Salvar questões selecionadas</button>
 </form>
 
