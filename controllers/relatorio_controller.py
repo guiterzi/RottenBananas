@@ -16,7 +16,7 @@ filme_service = FilmeService()
 
 @relatorio_bp.route("/relatorio", methods=['GET','POST'])
 def relatorio():
-    filmeid = request.form.get('filmeid')  # vem do select
+    filmeid = request.form.get('filmeid')
     filmes = filme_service.listar_filmes()
     graficos = []
     if filmeid:

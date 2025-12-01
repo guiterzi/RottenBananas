@@ -66,10 +66,10 @@ class AvaliacaoRepo:
         conn = get_connection()
         cur = conn.cursor()
         cur.execute("""
-            SELECT q.QuestaoId, q.Texto
-            FROM FilmeQuestao fq
-            JOIN Questao q ON fq.QuestaoId = q.QuestaoId
-            WHERE fq.FilmeId = %s
+            SELECT Questao.QuestaoId, Questao.Texto
+            FROM FilmeQuestao
+            JOIN Questao ON FilmeQuestao.QuestaoId = Questao.QuestaoId
+            WHERE FilmeQuestao.FilmeId = %s
         """, (filmeid,))
         resultados_query = cur.fetchall()
         cur.close()

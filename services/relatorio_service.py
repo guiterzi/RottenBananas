@@ -18,10 +18,23 @@ class RelatorioService:
             plt.figure(figsize=(8, 4))
             respostas = dados['respostas']
 
-            # Garantir que todas as opções apareçam
-            contagem = [respostas.get(op, 0) for op in opcoes_possiveis]
-            total = sum(contagem) if sum(contagem) > 0 else 1  # evita divisão por zero
-            porcentagens = [c / total * 100 for c in contagem]
+            contagem = []
+            for op in opcoes_possiveis:
+                if op in respostas:
+                    contagem.append(respostas[op])
+                else:
+                    contagem.append(0)
+
+            soma = 0
+            for c in contagem:
+                soma += c
+            if soma == 0:
+                soma = 1 
+
+            porcentagens = []
+            for c in contagem:
+                p = (c / soma) * 100
+                porcentagens.append(p)
 
             bars = plt.bar(opcoes_possiveis, contagem, color='skyblue')
             plt.title(dados['texto'])
@@ -29,14 +42,22 @@ class RelatorioService:
             plt.ylabel("Quantidade")
 
             # Adicionar valor e porcentagem no topo da barra
-            for bar, c, p in zip(bars, contagem, porcentagens):
-                plt.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.1,
-                         f"{c} ({p:.0f}%)",
-                         ha='center', va='bottom', fontsize=10)
+            index = 0
+            for bar in bars:
+                c = contagem[index]
+                p = porcentagens[index]
+                plt.text(
+                    bar.get_x() + bar.get_width() / 2,
+                    bar.get_height() + 0.1,
+                    f"{c} ({p:.0f}%)",
+                    ha='center',
+                    va='bottom',
+                    fontsize=10
+                )
+                index += 1
 
             plt.tight_layout()
 
-            # Converter gráfico para base64
             buf = io.BytesIO()
             plt.savefig(buf, format='png')
             buf.seek(0)
@@ -47,4 +68,3 @@ class RelatorioService:
             graficos.append(img_base64)
 
         return graficos
-

@@ -38,7 +38,6 @@ def admin_remover_favorito(filmeid):
     filme_service.remover_favorito_oscar(filmeid)
     return redirect(url_for('admin.admin_favoritos_oscar'))
 
-# ----------------- QUESTÕES -----------------
 @admin.route('/favoritos-oscar/<int:filmeid>/editar-questoes')
 @admin_required
 def admin_editar_questoes(filmeid):

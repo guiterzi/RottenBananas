@@ -1,12 +1,26 @@
 {% extends "base.html" %}
+
 {% block title %}Home{% endblock %}
+
 {% block content %}
 <h1>Bem-vindo ao Movie Reviews!</h1>
+<h2>Filmes</h2>
 <p>Use o menu para navegar pelo site, cadastrar-se, logar ou ver filmes.</p>
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px;">
+    {% for filme in filmes %}
+        <div style="width: 200px; text-align: center;">
+            {% if filme['posterurl'] %}
+                <img src="{{ filme['posterurl'] }}" alt="Poster de {{ filme['nome'] }}" style="max-width:200px;">
+            {% else %}
+                <p>Poster não disponível.</p>
+            {% endif %}
+
+            
+            <h3>{{ filme.nome }}</h3>
+            <p>{{ filme.ano }}</p>
+            <a href="{{ url_for('web.ver_filme', filmeid=filme.filmeid) }}">Ver detalhes</a>
+        </div>
+    {% endfor %}
+</div>
 {% endblock %}
-
-
-
-
-
-
